@@ -47,6 +47,8 @@ def signin(request):
         error_message=None
         if customer:
            flag=check_password(password,customer.password)
+           print (password)
+           print(customer.password)
            if flag:
                request.session['customer_id']=customer.id
                request.session['email']=customer.email
