@@ -1,40 +1,33 @@
-{% load static %}
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="{% static 'authentication/main.css' %}">
-    </head>
-    <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        
-        <script src="" async defer></script>
-    </body>
-    <h3>Signup</h3>
-    <form actions="/signin" method="POST">
-        {% csrf_token %} 
-        <label for=" ">Username</label>
-        <input type="text" id="username" name="username" placeholder="create a username(only alphabets and numericals)" Required ><br>
-        <label for=" ">Password</label>
-        <input type="password" id="pass1" name="pass1" placeholder="enter your password" Required><br><br>
-        <button style="background-color: violet;border: navy;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display:inline-block;
-        font-size: 16px;" type="submit">Signin</button>
-        
-    </form>
-</html>
-        
+{% extends 'base.html'%}
+{% block content %}
+<div class="container">
+    <div class="p-4 m-4">
+        <div class="col-lg-5 mx-auto border rounded pt-4">
+            <h3 class="alert alert-light border rounded">Login</h3>
+            <form action="/signin"method="POST">
+                {% csrf_token %}
+                {% if error %}
+                <div class="alert alert-danger" role=alert>
+                    {{error}}
+                </div>
+                {% endif %}
+                
+                <div class="form-group">
+                  <label for="">Email</label>
+                  <input required type="email" class="form-control" name="email" id=""placeholder="example@gmail.com">
+                </div>
+                <div class="form-group">
+                    <label for="">Password</label>
+                    <input required type="password" class="form-control" name="password" id=""placeholder="">
+                </div>
+                <div class="form-group">
+                    <input class="btn btn-sm btn-info" type="submit" value="Login">
+                </div>
+                
+            </form>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

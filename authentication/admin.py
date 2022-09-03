@@ -1,4 +1,20 @@
 from django.contrib import admin
-from .models import Items
+from authentication.models import Item,Customer
+class AdminItem(admin.ModelAdmin):
+    list_display=['name','price']
+admin.site.register(Item,AdminItem)
+admin.site.register(Customer)
 
-admin.site.register(Items)
+
+
+
+
+
+
+
+
+
+
+
+
+

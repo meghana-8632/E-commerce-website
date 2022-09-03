@@ -68,21 +68,6 @@
         float: right;
     }
     
-    div {
-        background-color: lightgrey;
-        display: inline-block;
-        height: 100px;
-        width: 200px;
-        border: 5px solid rgb(76, 0, 255);
-        padding: 20px;
-        margin: 2px;
-    }
-    
-    .box {
-        height: 350px;
-        width: 350px;
-    }
-    
     .search-form {
         margin-top: 5px;
         float: right;

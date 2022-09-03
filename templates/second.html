@@ -1,56 +1,48 @@
-{% load static %}
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
-   
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Authentication</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="{% static 'authentication/main.css' %}">
-    </head>
-    <nav>
-        <a>E-commerce store</a>
-        <a style="color:white;float:right;text-align:center;"href="/profile">Profile</a> 
-        <form action ="{% url 'search' %}" method="GET" class="search-form">
-            <input type="search" name="query" placeholder="Search">
-            <button type="submit">Search</button>
-        </form>
-        
-    </nav>
-    <body style="background-color:lightgreen">
+{% extends 'base.html' %}
 
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        
-        <script src="" async defer></script>
-    </body>
-    
-    <h3 style="padding:105px 346px 100px;">Welcome to E-Commerce Store</h3>
-    
+{% block content %}
+{% load admin_list %}
+{% load cart %}
 
-    {% if user.is_authenticated %}
-    <h4>Hello {{user}}</h4>
-    <h5>You are successfully logged in</h5>
-    {% endif %}
-    
-    {% for item in items %}
-    <div class="box">
-        <h1 style="font-size:25px;color:red;padding:10px 5px 5px 40px;">{{item.name}}</h1>
-        <div>
-            <img src="{{MEDIA_URL}}{{item.img.url}}" width="200" height="100">
+<div class="container-fluid mt-3">
+    <div class="row mx-auto">
+        {% for item in items %}
+        <div class="card mx-auto" style="width: 18rem;">
+            <img class="card-img-top" src="{{media_URL}}{{item.img.url}}" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title">{{item.name}}</h5>
+              <p class="card-text"><b>{{item.price}}</b></p>
+               
+             
+            </div>
+            <div class="card-footer row p-0 no-gutters">
+                {% if item|is_in_cart:request.session.cart %}
+                <div class="row">
+                    <form action="/post" class="col-2" method="POST">
+                        {% csrf_token %}
+                        <input hidden type="text" name='item' value='{{item.id}}'>
+                        <input hidden type="text" name='remove' value='True'>
+                        <input href="/post" type="submit" value="-" class=" btn btn-block btn-secondary">
+                        </form>
+                    
+                    <div class="text-center col">{{item|cart_count:request.session.cart}} in Cart</div>
+                    <form action="/post" class="col-2" method="POST">
+                    {% csrf_token %}
+                    <input hidden type="text" name='item' value='{{item.id}}'>
+                    <input href="/post" type="submit" value="+" class=" btn btn-block btn-secondary">
+                    </form>
+                </div>
+                {% else %}
+                <form action="/post" method="POST" class="btn-block">
+                    {% csrf_token %}
+                    <input hidden type="text" name='item' value='{{item.id}}'>
+                    <input href="/post" type="submit" class="float-right btn btn-light border form-control" value="Add To Cart">
+                 </form>
+                {% endif %}
+
         </div>
-        <h2 style="font-size:15px;color:black;padding:5px 5px 0px 10px;">{{item.description}}<br><br>Price:{{item.price}}<br><br>No.of Available pcs:{{item.quantity}}</h2>
-        <button>Add to Cart</button>  
-    </div>   
-    {% endfor %}
-        
-   
-    
-    
+        </div>
+        {% endfor %}
+    </div>
+    <div>
+{% endblock %}
